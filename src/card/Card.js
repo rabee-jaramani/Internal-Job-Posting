@@ -9,8 +9,8 @@ export default function Card(props) {
     job_title,
     department,
     location,
-    recruiter_name,
-    recruiter_email,
+    // recruiter_name,
+    // recruiter_email,
   } = props.item;
   return (
     <div className="card-cont">

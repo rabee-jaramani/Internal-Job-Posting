@@ -30,10 +30,10 @@ export default function Form(props) {
     email: yup
       .string('Enter your email')
       .email('Enter a valid email')
-      .matches(
-        // /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        'Enter a valid email'
-      )
+      // .matches(
+      // /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      // 'Enter a valid email'
+      // )
       .required('Email is required'),
     file: yup
       .mixed()

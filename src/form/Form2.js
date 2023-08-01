@@ -127,8 +127,11 @@ export default function Form2(props) {
             Upload
           </Button>
           <br />
-          {fileName ? <span>{fileName}</span> : ''}
-          <Error error={errors.fileErr} />
+          {fileName ? (
+            <span>{fileName}</span>
+          ) : (
+            <Error error={errors.fileErr} />
+          )}
         </label>
         <Button color="primary" variant="contained" fullWidth type="submit">
           Submit

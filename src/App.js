@@ -1,4 +1,4 @@
-import Popup from 'reactjs-popup';
+// import Popup from 'reactjs-popup';
 import Banner from './banner/Banner';
 import Cards from './cards/Cards';
 import Navbar from './navbar/Navbar';
