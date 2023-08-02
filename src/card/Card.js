@@ -1,6 +1,5 @@
 import React from 'react';
 import Popup from 'reactjs-popup';
-// import Form from '../form/Form';
 import Form2 from '../form/Form2';
 
 export default function Card(props) {
@@ -41,6 +40,9 @@ export default function Card(props) {
           >
             {(close) => (
               <div className="popup-cont">
+                <div className="popuo-header"></div>
+                <div className="popuo-space"></div>
+
                 <div className="modal-content">
                   <div className="modal-items">
                     <div className="modal-item">

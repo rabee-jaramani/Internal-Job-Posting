@@ -9,8 +9,23 @@ import {
   TextField,
 } from '@mui/material';
 import Error from './Error';
+import styled from '@emotion/styled';
 
 export default function Form2(props) {
+  const BootstrapButton = styled(Button)({
+    backgroundColor: '#673ab7',
+    '&:hover': {
+      backgroundColor: '#673ab7',
+      boxShadow: 'none',
+    },
+    '&:active': {
+      boxShadow: 'none',
+      backgroundColor: '#673ab7',
+    },
+    '&:focus': {
+      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
+    },
+  });
   const [country, setCountry] = useState('');
   const [employee_number, setEmployeeNumber] = useState('');
   const [name, setName] = useState('');
@@ -123,9 +138,9 @@ export default function Form2(props) {
           required
         />
         <label htmlFor="file">
-          <Button variant="contained" component="span">
-            Upload
-          </Button>
+          <BootstrapButton variant="contained" component="span">
+            Upload your cv
+          </BootstrapButton>
           <br />
           {fileName ? (
             <span>{fileName}</span>
@@ -133,10 +148,12 @@ export default function Form2(props) {
             <Error error={errors.fileErr} />
           )}
         </label>
-        <Button color="primary" variant="contained" fullWidth type="submit">
+        <Button variant="contained" fullWidth type="submit">
           Submit
         </Button>
       </form>
+      <div className="note">{`Please note: If the requisition belongs to GCC and you are applying from GCC , 
+        then you should login to oracle and follow the navigation Menu > Current Jobs > Search for requisition and apply.`}</div>
     </div>
   );
 }
