@@ -7,20 +7,8 @@ import {
   Select,
 } from '@mui/material';
 
-// import { makeStyles } from '@mui/styles'
 export default function FiltersForm(props) {
 
-  // const useStyles = makeStyles({
-  //   paper: {
-  //     overflowY: "scroll",
-  //     height: "450px"
-  //   }
-  // });
-  // const classes = useStyles();
-  // const MenuProps = {
-  //   autoFocus: false
-  // };
-  // get the list and the setlist from props
   const searching = props.searching
   const setSearching = props.setSearching
   const setListToBeRendered = props.setListToBeRendered

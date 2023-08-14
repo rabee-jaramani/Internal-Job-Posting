@@ -11,6 +11,15 @@ import Error from './Error';
 import styled from '@emotion/styled';
 
 export default function Form2(props) {
+  const {
+    requisition_number,
+    job_title,
+    department,
+    location,
+    // recruiter_name,
+    // recruiter_email,
+  } = props.item;
+
   const BootstrapButton = styled(Button)({
     backgroundColor: '#673ab7',
     '&:hover': {
@@ -31,40 +40,111 @@ export default function Form2(props) {
   const [email, setEmail] = useState('');
   const [fileName, setFileName] = useState('');
   const [errors, setErrors] = useState({
-    countryErr: '',
-    fileErr: '',
+    countryErr: null,
+    nameErr: null,
+    employeeNumberErr: null,
+    emailErr: null,
+    fileErr: null,
   });
   // values handles functions
+
+  // Handle Country
   const handleCountry = (value) => {
+    setErrors({ ...errors, countryErr: "" })
     setCountry(value);
   };
+
+  // Handle Employee Number
   const handleEmployeeNumber = (value) => {
-    setEmployeeNumber(value);
+    if (value.length > 6) {
+      setErrors({ ...errors, employeeNumberErr: "Number is too long" })
+      setEmployeeNumber(value);
+    }
+    else {
+      setErrors({ ...errors, employeeNumberErr: "" })
+      setEmployeeNumber(value);
+    }
   };
   const handleName = (value) => {
-    setName(value);
-  };
-  const handleEmail = (value) => {
-    setEmail(value);
-  };
-  const handleFile = (e) => {
-    let file = document.getElementById('file').files[0];
-    if (file.size > 2000000) {
-      setErrors({ ...errors, fileErr: 'File size is greater than 2MB' });
-      document.getElementById('file').value = null;
-    } else {
-      setFileName(file.name);
+    if (value.length > 30) {
+      setErrors({ ...errors, nameErr: "Name is too long" })
+      setName(value);
     }
+    else {
+      setErrors({ ...errors, nameErr: "" })
+      setName(value);
+    }
+
+  };
+
+  // Handle Email
+  const handleEmail = (value) => {
+    console.log(value)
+    if (validateEmail(value)) {
+      if (value.toString().length > 50) {
+        console.log('value.toString().length', value.toString().length)
+        setErrors({ ...errors, emailErr: 'Email is too long' })
+        setEmail(value);
+      }
+      else {
+        setErrors({ ...errors, emailErr: "" })
+        setEmail(value);
+      }
+    }
+    else {
+      setErrors({ ...errors, emailErr: 'Not a valid email address' });
+      setEmail(value);
+    }
+  };
+
+  const validateEmail = (email) => {
+    return String(email)
+      .toLowerCase()
+      .match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+  };
+
+  const handleFile = (e) => {
+
+    let file = document.getElementById('file').files[0];
+    try {
+      if (file.size > 2000000) {
+        setErrors({ ...errors, fileErr: 'File size is greater than 2MB' });
+        document.getElementById('file').value = null;
+      } else {
+        setFileName(file.name);
+        setErrors({ ...errors, fileErr: '' });
+      }
+    } catch (error) {
+      setErrors({ ...errors, fileErr: "Please choose a file to upload" })
+    }
+
   };
   ///////////////// Submit
   const handleSubmit = (e) => {
-    e.preventDefault();
     let file = document.getElementById('file').files[0];
-    console.log('file is ', file);
+    // check the file if still empty
+    if (errors.fileErr === null || errors.fileErr === 'Upload your CV') {
+      setErrors({ ...errors, fileErr: "Upload your CV" })
+    }
+    else setErrors({ ...errors, fileErr: "" })
+    // check tere is no errors
+    if (
+      errors.emailErr === "" &&
+      errors.fileErr === "" &&
+      errors.nameErr === "" &&
+      errors.employeeNumberErr === ""
+    ) {
+      console.log(document.getElementById('file').files[0])
+      console.log("ALL GOOD >>>>>>>>>>>>>>>>>")
+    }
+    else {
+      console.log('fields errors', errors)
+    }
   };
   useEffect(() => {
-    console.log(country);
-  }, [country]);
+  }, [name]);
   return (
     <div className="form-cont">
       <form className="form" onSubmit={handleSubmit}>
@@ -91,65 +171,85 @@ export default function Form2(props) {
             <MenuItem value="INDIA">INDIA</MenuItem>
           </Select>
         </FormControl>
-
-        <TextField
-          variant="filled"
-          fullWidth
-          size="small"
-          id="employee_number"
-          name="employee_number"
-          label="Employee Number"
-          value={employee_number}
-          onChange={(e) => handleEmployeeNumber(e.target.value)}
-          required
-        />
-        <TextField
-          variant="filled"
-          fullWidth
-          size="small"
-          id="name"
-          name="name"
-          label="Employee Name"
-          value={name}
-          onChange={(e) => handleName(e.target.value)}
-          required
-        />
-
-        <TextField
-          variant="filled"
-          fullWidth
-          size="small"
-          id="email"
-          name="email"
-          label="Email ID"
-          value={email}
-          onChange={(e) => handleEmail(e.target.value)}
-          required
-        />
-
-        <input
-          accept="application/pdf,.doc,.docx"
-          style={{ display: 'none' }}
-          id="file"
-          name="file"
-          type="file"
-          onChange={handleFile}
-          required
-        />
-        <label htmlFor="file">
-          <BootstrapButton variant="contained" component="span">
-            Upload your cv
-          </BootstrapButton>
-          <br />
-          {fileName ? (
-            <span>{fileName}</span>
-          ) : (
-            <Error error={errors.fileErr} />
-          )}
-        </label>
-        <Button variant="contained" fullWidth type="submit">
+        <div>
+          <TextField
+            variant="filled"
+            fullWidth
+            size="small"
+            id="employee_number"
+            name="employee_number"
+            label="Employee Number"
+            value={employee_number}
+            onChange={(e) => handleEmployeeNumber(e.target.value)}
+            required
+            type='number'
+          />
+          <Error error={errors.employeeNumberErr} />
+        </div>
+        <div>
+          <TextField
+            variant="filled"
+            fullWidth
+            size="small"
+            id="name"
+            name="name"
+            label="Employee Name"
+            value={name}
+            onChange={(e) => handleName(e.target.value)}
+            required
+          />
+          <Error error={errors.nameErr} />
+        </div>
+        <div>
+          <TextField
+            variant="filled"
+            fullWidth
+            size="small"
+            id="email"
+            name="email"
+            label="Email ID"
+            value={email}
+            onChange={(e) => handleEmail(e.target.value)}
+            required
+          />
+          <Error error={errors.emailErr}></Error>
+        </div>
+        <div>
+          <input
+            accept="application/pdf,.doc,.docx"
+            style={{ display: 'none' }}
+            id="file"
+            name="file"
+            type="file"
+            onChange={handleFile}
+            required
+          />
+          <label htmlFor="file">
+            <BootstrapButton variant="contained" component="span">
+              Upload your cv
+            </BootstrapButton>
+            <br />
+            {errors.fileErr ? (
+              <Error error={errors.fileErr} />
+            ) : (
+              <span>{fileName}</span>
+            )}
+          </label>
+        </div>
+        <Button variant="contained" fullWidth onClick={handleSubmit}
+          disabled={
+            errors.countryErr === "" &&
+              errors.emailErr === "" &&
+              errors.fileErr === "" &&
+              errors.nameErr === "" &&
+              errors.employeeNumberErr === ""
+              ? false
+              : true
+          }
+        >
           Submit
         </Button>
+        {/* <p onClick={() => console.log("errors.fileErr", errors.emailErr)}>email error</p> */}
       </form>
       <div className="note">{`Please note: If the requisition belongs to GCC and you are applying from GCC , 
         then you should login to oracle and follow the navigation Menu > Current Jobs > Search for requisition and apply.`}</div>
