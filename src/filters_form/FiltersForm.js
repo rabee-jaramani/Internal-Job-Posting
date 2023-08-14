@@ -111,11 +111,6 @@ export default function FiltersForm(props) {
             {job_title_list.map((e) => {
               return <MenuItem key={e.requisition_number} value={e.job_title}>{e.job_title}</MenuItem>
             })}
-            {/* <MenuItem value="leadership">Leadership</MenuItem>
-            <MenuItem value="sales front office">Sales Front Office</MenuItem>
-            <MenuItem value="sales back office">Sales Back Office</MenuItem>
-            <MenuItem value="support function">Support Function</MenuItem>
-            <MenuItem value="distribution centre">Distribution Centre</MenuItem> */}
           </Select>
         </FormControl>
 

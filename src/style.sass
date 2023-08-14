@@ -4,7 +4,16 @@
     padding: 0
     box-sizing: border-box
     font-family: 'Poppins', sans-serif
-
+html
+    overflow-y: scroll
+::-webkit-scrollbar
+    width: 6px !important
+::-webkit-scrollbar-track
+    background: #f1f1f1
+::-webkit-scrollbar-thumb
+    background: #acacac
+::-webkit-scrollbar-thumb:hover
+    background: #555
 @import ./navbar/navbar.sass
 @import ./banner/banner.sass
 @import ./cards/cards.sass
@@ -12,3 +21,5 @@
 @import ./card/card.sass
 @import ./form/form.sass
 @import ./filters_form/filters_form.sass
+@import ./spinner/spinner.sass
+@import ./pop-up/pop-up.sass
