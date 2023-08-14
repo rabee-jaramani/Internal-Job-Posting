@@ -9,6 +9,8 @@ import {
 } from '@mui/material';
 import Error from './Error';
 import styled from '@emotion/styled';
+import axios from 'axios';
+import Spinner from '../spinner/Spinner';
 
 export default function Form2(props) {
   const {
@@ -17,7 +19,7 @@ export default function Form2(props) {
     department,
     location,
     // recruiter_name,
-    // recruiter_email,
+    recruiter_email,
   } = props.item;
 
   const BootstrapButton = styled(Button)({
@@ -34,6 +36,9 @@ export default function Form2(props) {
       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
     },
   });
+  const [sent, setSent] = useState(false)
+  const [errorSending, setErrorSending] = useState(false)
+  const [sending, setSending] = useState(false)
   const [country, setCountry] = useState('');
   const [employee_number, setEmployeeNumber] = useState('');
   const [name, setName] = useState('');
@@ -46,6 +51,7 @@ export default function Form2(props) {
     emailErr: null,
     fileErr: null,
   });
+  const [attachment, setAttachment] = useState(null);
   // values handles functions
 
   // Handle Country
@@ -115,6 +121,8 @@ export default function Form2(props) {
       } else {
         setFileName(file.name);
         setErrors({ ...errors, fileErr: '' });
+        setAttachment(e.target.files[0]);
+        console.log('attachement', attachment)
       }
     } catch (error) {
       setErrors({ ...errors, fileErr: "Please choose a file to upload" })
@@ -122,8 +130,9 @@ export default function Form2(props) {
 
   };
   ///////////////// Submit
-  const handleSubmit = (e) => {
-    let file = document.getElementById('file').files[0];
+  const handleSubmit = async () => {
+    setSending(true)
+    // let file = document.getElementById('file').files[0];
     // check the file if still empty
     if (errors.fileErr === null || errors.fileErr === 'Upload your CV') {
       setErrors({ ...errors, fileErr: "Upload your CV" })
@@ -138,6 +147,32 @@ export default function Form2(props) {
     ) {
       console.log(document.getElementById('file').files[0])
       console.log("ALL GOOD >>>>>>>>>>>>>>>>>")
+      const formData = new FormData();
+      formData.append('to', recruiter_email);
+      formData.append('subject', 'Job Title: ' + job_title);
+      formData.append('text',
+        'Job Title: ' + job_title +
+        'requisition_number: ' + requisition_number +
+        'department: ' + department +
+        'location: ' + location);
+      formData.append('attachment', attachment);
+
+      try {
+        await axios.post('http://localhost:5000/send-email', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        setSent(true)
+        setSending(false)
+        setErrorSending(false)
+        // alert('Email sent successfully');
+      } catch (error) {
+        setSending(false)
+        setErrorSending(true)
+        console.error('Error sending email:', error);
+        // alert('Error sending email');
+      }
     }
     else {
       console.log('fields errors', errors)
@@ -236,20 +271,29 @@ export default function Form2(props) {
             )}
           </label>
         </div>
-        <Button variant="contained" fullWidth onClick={handleSubmit}
-          disabled={
-            errors.countryErr === "" &&
-              errors.emailErr === "" &&
-              errors.fileErr === "" &&
-              errors.nameErr === "" &&
-              errors.employeeNumberErr === ""
-              ? false
-              : true
-          }
-        >
-          Submit
-        </Button>
-        {/* <p onClick={() => console.log("errors.fileErr", errors.emailErr)}>email error</p> */}
+        {sending ?
+          <Spinner size={30} /> :
+          (
+            sent ?
+              <p style={{ fontSize: '14px', color: '#00720f', width: '100%', padding: '5px', backgroundColor: '#c0fcae' }}>Your Mail sent successfully</p> :
+              <div>
+                <Button variant="contained" fullWidth onClick={handleSubmit}
+                  disabled={
+                    errors.countryErr === "" &&
+                      errors.emailErr === "" &&
+                      errors.fileErr === "" &&
+                      errors.nameErr === "" &&
+                      errors.employeeNumberErr === ""
+                      ? false
+                      : true
+                  }
+                >
+                  Submit
+                </Button>
+                {errorSending ? <Error error={'Something went wrong, try again later.'} /> : ''}
+              </div>
+          )}
+
       </form>
       <div className="note">{`Please note: If the requisition belongs to GCC and you are applying from GCC , 
         then you should login to oracle and follow the navigation Menu > Current Jobs > Search for requisition and apply.`}</div>

@@ -5,7 +5,7 @@ export const data = [
     department: 'LC Waikiki',
     location: 'Dubai, UAE',
     recruiter_name: 'Mona',
-    recruiter_email: 'mona.shah@apparelglobal.com',
+    recruiter_email: 'rabee.aljaramani@apparelglobal.com',
   },
   {
     requisition_number: 1681,
