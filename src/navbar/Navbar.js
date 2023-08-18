@@ -7,7 +7,7 @@ export default function Navbar() {
         <div className="navbar-logo">
           <img src={ag_logo} height={35} alt="Internal Job Posting" />
         </div>
-        <div className="navbar-right">icons</div>
+        <div className="navbar-right"></div>
       </div>
     </div>
   );
