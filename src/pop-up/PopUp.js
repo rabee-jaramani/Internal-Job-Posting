@@ -27,20 +27,19 @@ export default function PopUp(props) {
                         <div className="modal-content">
                             <div className="modal-items">
                                 <div className="modal-item">
-                                    <strong>Requisition Number</strong> <br />
+                                    <strong>Requisition Number: </strong>
                                     {requisition_number}
                                 </div>
                                 <div className="modal-item">
-                                    <strong>Job Title</strong> <br />
+                                    <strong>Job Title: </strong>
                                     {job_title}
                                 </div>
                                 <div className="modal-item">
-                                    <strong>Department</strong> <br />
+                                    <strong>Department: </strong>
                                     {department}
                                 </div>
                                 <div className="modal-item">
-                                    <strong>Location</strong>
-                                    <br />
+                                    <strong>Location: </strong>
                                     {location}
                                 </div>
 

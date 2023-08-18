@@ -24,6 +24,7 @@ export default function Form2(props) {
 
   const BootstrapButton = styled(Button)({
     backgroundColor: '#673ab7',
+    fontSize: "13px",
     '&:hover': {
       backgroundColor: '#673ab7',
       boxShadow: 'none',
@@ -158,7 +159,7 @@ export default function Form2(props) {
       formData.append('attachment', attachment);
 
       try {
-        await axios.post('http://localhost:5000/send-email', formData, {
+        await axios.post('http://ijp.apparelglobal.com/send-email', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -196,6 +197,7 @@ export default function Form2(props) {
             value={country}
             onChange={(e) => handleCountry(e.target.value)}
             required
+
           >
             <MenuItem value="UAE">UAE</MenuItem>
             <MenuItem value="KSA">KSA</MenuItem>
@@ -218,6 +220,11 @@ export default function Form2(props) {
             onChange={(e) => handleEmployeeNumber(e.target.value)}
             required
             type='number'
+            inputProps={{
+              style: {
+                fontSize: "14px"
+              },
+            }}
           />
           <Error error={errors.employeeNumberErr} />
         </div>
@@ -232,6 +239,12 @@ export default function Form2(props) {
             value={name}
             onChange={(e) => handleName(e.target.value)}
             required
+            inputProps={{
+              style: {
+                fontSize: "14px"
+              },
+            }}
+
           />
           <Error error={errors.nameErr} />
         </div>
@@ -246,6 +259,11 @@ export default function Form2(props) {
             value={email}
             onChange={(e) => handleEmail(e.target.value)}
             required
+            inputProps={{
+              style: {
+                fontSize: "14px"
+              },
+            }}
           />
           <Error error={errors.emailErr}></Error>
         </div>
