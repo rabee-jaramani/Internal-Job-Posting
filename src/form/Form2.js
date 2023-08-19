@@ -54,7 +54,19 @@ export default function Form2(props) {
   });
   const [attachment, setAttachment] = useState(null);
   // values handles functions
-
+  const isEligableToApply = (job_location, country) => {
+    if ((country === 'INDIA') || (job_location.includes('INDIA')
+    )) {
+      setSending(false)
+      setErrorSending(false)
+      return true
+    }
+    else {
+      setSending(false)
+      setErrorSending(false)
+      return false
+    }
+  }
   // Handle Country
   const handleCountry = (value) => {
     setErrors({ ...errors, countryErr: "" })
@@ -86,10 +98,9 @@ export default function Form2(props) {
 
   // Handle Email
   const handleEmail = (value) => {
-    console.log(value)
+    // console.log(value)
     if (validateEmail(value)) {
       if (value.toString().length > 50) {
-        console.log('value.toString().length', value.toString().length)
         setErrors({ ...errors, emailErr: 'Email is too long' })
         setEmail(value);
       }
@@ -123,7 +134,7 @@ export default function Form2(props) {
         setFileName(file.name);
         setErrors({ ...errors, fileErr: '' });
         setAttachment(e.target.files[0]);
-        console.log('attachement', attachment)
+        // console.log('attachement', attachment)
       }
     } catch (error) {
       setErrors({ ...errors, fileErr: "Please choose a file to upload" })
@@ -146,8 +157,12 @@ export default function Form2(props) {
       errors.nameErr === "" &&
       errors.employeeNumberErr === ""
     ) {
-      console.log(document.getElementById('file').files[0])
-      console.log("ALL GOOD >>>>>>>>>>>>>>>>>")
+      // console.log(document.getElementById('file').files[0])
+      // console.log("ALL GOOD >>>>>>>>>>>>>>>>>")
+      if (!isEligableToApply(location, country)) {
+        alert(`The requisition belongs to GCC and you are applying from GCC,\nPlease login to oracle and follow the\nNavigation Menu > Current Jobs > Search for requisition and apply.`)
+        return ''
+      }
       const formData = new FormData();
       formData.append('to', recruiter_email);
       formData.append('subject', 'Job Title: ' + job_title);
@@ -285,7 +300,7 @@ export default function Form2(props) {
             {errors.fileErr ? (
               <Error error={errors.fileErr} />
             ) : (
-              <span>{fileName}</span>
+              <span style={{ fontSize: "13px" }}>{fileName}</span>
             )}
           </label>
         </div>
