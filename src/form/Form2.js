@@ -167,10 +167,13 @@ export default function Form2(props) {
       formData.append('to', recruiter_email);
       formData.append('subject', 'Job Title: ' + job_title);
       formData.append('text',
-        'Job Title: ' + job_title +
-        'requisition_number: ' + requisition_number +
-        'department: ' + department +
-        'location: ' + location);
+        'Job Title: ' + job_title + `\n
+        Requisition_number: ` + requisition_number + `\n
+        Department: ` + department + `\n
+        Name: ` + name + `\n
+        ID: ` + employee_number + `\n
+        Country: ` + country + `\n
+        Job Location: ` + location);
       formData.append('attachment', attachment);
 
       try {
