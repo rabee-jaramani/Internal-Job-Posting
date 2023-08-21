@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   FormControl,
@@ -18,7 +18,7 @@ export default function Form2(props) {
     job_title,
     department,
     location,
-    // recruiter_name,
+    recruiter_name,
     recruiter_email,
   } = props.item;
 
@@ -50,14 +50,14 @@ export default function Form2(props) {
     nameErr: null,
     employeeNumberErr: null,
     emailErr: null,
-    fileErr: null,
+    fileErr: 'Please choose a file to upload',
   });
   const [attachment, setAttachment] = useState(null);
   // values handles functions
   const isEligableToApply = (job_location, country) => {
-    if ((country === 'INDIA') || (job_location.includes('INDIA')
+    if ((country.toLowerCase() === 'india') || (job_location.toLowerCase().includes('india')
     )) {
-      setSending(false)
+      setSending(true)
       setErrorSending(false)
       return true
     }
@@ -160,24 +160,18 @@ export default function Form2(props) {
       // console.log(document.getElementById('file').files[0])
       // console.log("ALL GOOD >>>>>>>>>>>>>>>>>")
       if (!isEligableToApply(location, country)) {
-        alert(`The requisition belongs to GCC and you are applying from GCC,\nPlease login to oracle and follow the\nNavigation Menu > Current Jobs > Search for requisition and apply.`)
+        alert(`The requisition belongs to GCC and you are applying from GCC,\nPlease login to oracle and follow:\nNavigation Menu > Current Jobs > Search for requisition and apply.`)
         return ''
       }
       const formData = new FormData();
       formData.append('to', recruiter_email);
       formData.append('subject', 'Job Title: ' + job_title);
       formData.append('text',
-        'Job Title: ' + job_title + `\n
-        Requisition_number: ` + requisition_number + `\n
-        Department: ` + department + `\n
-        Name: ` + name + `\n
-        ID: ` + employee_number + `\n
-        Country: ` + country + `\n
-        Job Location: ` + location);
+        'Job Title: ' + job_title + `\nRequisition_number: ` + requisition_number + `\nDepartment: ` + department + `\nName: ` + name + `\nID: ` + employee_number + `\nCountry: ` + country + `\nRecruiter: ` + recruiter_name + `\nJob Location: ` + location);
       formData.append('attachment', attachment);
 
       try {
-        await axios.post('http://ijp.apparelglobal.com/send-email', formData, {
+        await axios.post('https://ijp.apparelglobal.com/send-email', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -197,8 +191,7 @@ export default function Form2(props) {
       console.log('fields errors', errors)
     }
   };
-  useEffect(() => {
-  }, [name]);
+
   return (
     <div className="form-cont">
       <form className="form" onSubmit={handleSubmit}>
@@ -215,7 +208,7 @@ export default function Form2(props) {
             value={country}
             onChange={(e) => handleCountry(e.target.value)}
             required
-
+            disabled={sent}
           >
             <MenuItem value="UAE">UAE</MenuItem>
             <MenuItem value="KSA">KSA</MenuItem>
@@ -243,6 +236,7 @@ export default function Form2(props) {
                 fontSize: "14px"
               },
             }}
+            disabled={sent}
           />
           <Error error={errors.employeeNumberErr} />
         </div>
@@ -262,7 +256,7 @@ export default function Form2(props) {
                 fontSize: "14px"
               },
             }}
-
+            disabled={sent}
           />
           <Error error={errors.nameErr} />
         </div>
@@ -282,6 +276,7 @@ export default function Form2(props) {
                 fontSize: "14px"
               },
             }}
+            disabled={sent}
           />
           <Error error={errors.emailErr}></Error>
         </div>
@@ -296,7 +291,7 @@ export default function Form2(props) {
             required
           />
           <label htmlFor="file">
-            <BootstrapButton variant="contained" component="span">
+            <BootstrapButton variant="contained" component="span" disabled={sent}>
               Upload your cv
             </BootstrapButton>
             <br />
@@ -311,7 +306,7 @@ export default function Form2(props) {
           <Spinner size={30} /> :
           (
             sent ?
-              <p style={{ fontSize: '14px', color: '#00720f', width: '100%', padding: '5px', backgroundColor: '#c0fcae' }}>Your Mail sent successfully</p> :
+              <p style={{ fontSize: '14px', color: '#00720f', width: '100%', padding: '5px', backgroundColor: '#c0fcae' }}>Your Mail sent successfully.😄</p> :
               <div>
                 <Button variant="contained" fullWidth onClick={handleSubmit}
                   disabled={
@@ -331,8 +326,10 @@ export default function Form2(props) {
           )}
 
       </form>
-      <div className="note">{`Please note: If the requisition belongs to GCC and you are applying from GCC , 
-        then you should login to oracle and follow the navigation Menu > Current Jobs > Search for requisition and apply.`}</div>
+      <div className="note"><p>
+        {`Please note: If the requisition belongs to GCC and you are applying from GCC , 
+        then you should login to oracle and follow:`}</p>
+        <p>{`Navigation Menu > Current Jobs > Search for requisition and apply.`}</p></div>
     </div>
   );
 }
