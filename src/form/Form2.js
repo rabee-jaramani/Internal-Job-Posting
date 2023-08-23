@@ -168,10 +168,10 @@ export default function Form2(props) {
       formData.append('subject', 'Job Title: ' + job_title);
       formData.append('text',
         'Job Title: ' + job_title + `\nRequisition_number: ` + requisition_number + `\nDepartment: ` + department + `\nName: ` + name + `\nID: ` + employee_number + `\nCountry: ` + country + `\nRecruiter: ` + recruiter_name + `\nJob Location: ` + location);
-      formData.append('attachment', attachment);
+      // formData.append('attachment', attachment);
 
       try {
-        await axios.post('https://jobs.apparelglobal.com/send-email', formData, {
+        await axios.post('http://localhost:5000/send-email', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
