@@ -2,7 +2,7 @@
   "name": "ijp",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://apparelgroupapps.com/ijp/",
+  "homepage": "https://jobs.apparelglobal.com/client/",
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "@emotion/react": "^11.11.1",

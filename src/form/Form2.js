@@ -171,7 +171,7 @@ export default function Form2(props) {
       formData.append('attachment', attachment);
 
       try {
-        await axios.post('https://ijp.apparelglobal.com/send-email', formData, {
+        await axios.post('https://jobs.apparelglobal.com/send-email', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
