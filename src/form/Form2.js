@@ -24,7 +24,7 @@ export default function Form2(props) {
 
   const BootstrapButton = styled(Button)({
     backgroundColor: '#673ab7',
-    fontSize: "13px",
+    fontSize: '13px',
     '&:hover': {
       backgroundColor: '#673ab7',
       boxShadow: 'none',
@@ -37,9 +37,9 @@ export default function Form2(props) {
       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
     },
   });
-  const [sent, setSent] = useState(false)
-  const [errorSending, setErrorSending] = useState(false)
-  const [sending, setSending] = useState(false)
+  const [sent, setSent] = useState(false);
+  const [errorSending, setErrorSending] = useState(false);
+  const [sending, setSending] = useState(false);
   const [country, setCountry] = useState('');
   const [employee_number, setEmployeeNumber] = useState('');
   const [name, setName] = useState('');
@@ -55,45 +55,43 @@ export default function Form2(props) {
   const [attachment, setAttachment] = useState(null);
   // values handles functions
   const isEligableToApply = (job_location, country) => {
-    if ((country.toLowerCase() === 'india') || (job_location.toLowerCase().includes('india')
-    )) {
-      setSending(true)
-      setErrorSending(false)
-      return true
+    if (
+      country.toLowerCase() === 'india' ||
+      job_location.toLowerCase().includes('india')
+    ) {
+      setSending(true);
+      setErrorSending(false);
+      return true;
+    } else {
+      setSending(false);
+      setErrorSending(false);
+      return false;
     }
-    else {
-      setSending(false)
-      setErrorSending(false)
-      return false
-    }
-  }
+  };
   // Handle Country
   const handleCountry = (value) => {
-    setErrors({ ...errors, countryErr: "" })
+    setErrors({ ...errors, countryErr: '' });
     setCountry(value);
   };
 
   // Handle Employee Number
   const handleEmployeeNumber = (value) => {
     if (value.length > 6) {
-      setErrors({ ...errors, employeeNumberErr: "Number is too long" })
+      setErrors({ ...errors, employeeNumberErr: 'Number is too long' });
       setEmployeeNumber(value);
-    }
-    else {
-      setErrors({ ...errors, employeeNumberErr: "" })
+    } else {
+      setErrors({ ...errors, employeeNumberErr: '' });
       setEmployeeNumber(value);
     }
   };
   const handleName = (value) => {
     if (value.length > 30) {
-      setErrors({ ...errors, nameErr: "Name is too long" })
+      setErrors({ ...errors, nameErr: 'Name is too long' });
+      setName(value);
+    } else {
+      setErrors({ ...errors, nameErr: '' });
       setName(value);
     }
-    else {
-      setErrors({ ...errors, nameErr: "" })
-      setName(value);
-    }
-
   };
 
   // Handle Email
@@ -101,15 +99,13 @@ export default function Form2(props) {
     // console.log(value)
     if (validateEmail(value)) {
       if (value.toString().length > 50) {
-        setErrors({ ...errors, emailErr: 'Email is too long' })
+        setErrors({ ...errors, emailErr: 'Email is too long' });
+        setEmail(value);
+      } else {
+        setErrors({ ...errors, emailErr: '' });
         setEmail(value);
       }
-      else {
-        setErrors({ ...errors, emailErr: "" })
-        setEmail(value);
-      }
-    }
-    else {
+    } else {
       setErrors({ ...errors, emailErr: 'Not a valid email address' });
       setEmail(value);
     }
@@ -124,7 +120,6 @@ export default function Form2(props) {
   };
 
   const handleFile = (e) => {
-
     let file = document.getElementById('file').files[0];
     try {
       if (file.size > 2000000) {
@@ -137,58 +132,74 @@ export default function Form2(props) {
         // console.log('attachement', attachment)
       }
     } catch (error) {
-      setErrors({ ...errors, fileErr: "Please choose a file to upload" })
+      setErrors({ ...errors, fileErr: 'Please choose a file to upload' });
     }
-
   };
   ///////////////// Submit
   const handleSubmit = async () => {
-    setSending(true)
+    setSending(true);
     // let file = document.getElementById('file').files[0];
     // check the file if still empty
     if (errors.fileErr === null || errors.fileErr === 'Upload your CV') {
-      setErrors({ ...errors, fileErr: "Upload your CV" })
-    }
-    else setErrors({ ...errors, fileErr: "" })
+      setErrors({ ...errors, fileErr: 'Upload your CV' });
+    } else setErrors({ ...errors, fileErr: '' });
     // check tere is no errors
     if (
-      errors.emailErr === "" &&
-      errors.fileErr === "" &&
-      errors.nameErr === "" &&
-      errors.employeeNumberErr === ""
+      errors.emailErr === '' &&
+      errors.fileErr === '' &&
+      errors.nameErr === '' &&
+      errors.employeeNumberErr === ''
     ) {
       // console.log(document.getElementById('file').files[0])
       // console.log("ALL GOOD >>>>>>>>>>>>>>>>>")
       if (!isEligableToApply(location, country)) {
-        alert(`The requisition belongs to GCC and you are applying from GCC,\nPlease login to oracle and follow:\nNavigation Menu > Current Jobs > Search for requisition and apply.`)
-        return ''
+        alert(
+          `The requisition belongs to GCC and you are applying from GCC,\nPlease login to oracle and follow:\nNavigation Menu > Current Jobs > Search for requisition and apply.`
+        );
+        return '';
       }
       const formData = new FormData();
       formData.append('to', recruiter_email);
       formData.append('subject', 'Job Title: ' + job_title);
-      formData.append('text',
-        'Job Title: ' + job_title + `\nRequisition_number: ` + requisition_number + `\nDepartment: ` + department + `\nName: ` + name + `\nID: ` + employee_number + `\nCountry: ` + country + `\nRecruiter: ` + recruiter_name + `\nJob Location: ` + location);
-      // formData.append('attachment', attachment);
+      formData.append(
+        'text',
+        'Job Title: ' +
+          job_title +
+          `\nRequisition_number: ` +
+          requisition_number +
+          `\nDepartment: ` +
+          department +
+          `\nName: ` +
+          name +
+          `\nID: ` +
+          employee_number +
+          `\nCountry: ` +
+          country +
+          `\nRecruiter: ` +
+          recruiter_name +
+          `\nJob Location: ` +
+          location
+      );
+      formData.append('attachment', attachment);
 
       try {
-        await axios.post('http://localhost:5000/send-email', formData, {
+        await axios.post('https://ijp-server.vercel.app/send-email', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
         });
-        setSent(true)
-        setSending(false)
-        setErrorSending(false)
+        setSent(true);
+        setSending(false);
+        setErrorSending(false);
         // alert('Email sent successfully');
       } catch (error) {
-        setSending(false)
-        setErrorSending(true)
+        setSending(false);
+        setErrorSending(true);
         console.error('Error sending email:', error);
         // alert('Error sending email');
       }
-    }
-    else {
-      console.log('fields errors', errors)
+    } else {
+      console.log('fields errors', errors);
     }
   };
 
@@ -230,10 +241,10 @@ export default function Form2(props) {
             value={employee_number}
             onChange={(e) => handleEmployeeNumber(e.target.value)}
             required
-            type='number'
+            type="number"
             inputProps={{
               style: {
-                fontSize: "14px"
+                fontSize: '14px',
               },
             }}
             disabled={sent}
@@ -253,7 +264,7 @@ export default function Form2(props) {
             required
             inputProps={{
               style: {
-                fontSize: "14px"
+                fontSize: '14px',
               },
             }}
             disabled={sent}
@@ -273,7 +284,7 @@ export default function Form2(props) {
             required
             inputProps={{
               style: {
-                fontSize: "14px"
+                fontSize: '14px',
               },
             }}
             disabled={sent}
@@ -291,45 +302,68 @@ export default function Form2(props) {
             required
           />
           <label htmlFor="file">
-            <BootstrapButton variant="contained" component="span" disabled={sent}>
+            <BootstrapButton
+              variant="contained"
+              component="span"
+              disabled={sent}
+            >
               Upload your cv
             </BootstrapButton>
             <br />
             {errors.fileErr ? (
               <Error error={errors.fileErr} />
             ) : (
-              <span style={{ fontSize: "13px" }}>{fileName}</span>
+              <span style={{ fontSize: '13px' }}>{fileName}</span>
             )}
           </label>
         </div>
-        {sending ?
-          <Spinner size={30} /> :
-          (
-            sent ?
-              <p style={{ fontSize: '14px', color: '#00720f', width: '100%', padding: '5px', backgroundColor: '#c0fcae' }}>Your Mail sent successfully.😄</p> :
-              <div>
-                <Button variant="contained" fullWidth onClick={handleSubmit}
-                  disabled={
-                    errors.countryErr === "" &&
-                      errors.emailErr === "" &&
-                      errors.fileErr === "" &&
-                      errors.nameErr === "" &&
-                      errors.employeeNumberErr === ""
-                      ? false
-                      : true
-                  }
-                >
-                  Submit
-                </Button>
-                {errorSending ? <Error error={'Something went wrong, try again later.'} /> : ''}
-              </div>
-          )}
-
+        {sending ? (
+          <Spinner size={30} />
+        ) : sent ? (
+          <p
+            style={{
+              fontSize: '14px',
+              color: '#00720f',
+              width: '100%',
+              padding: '5px',
+              backgroundColor: '#c0fcae',
+            }}
+          >
+            Your Mail sent successfully.🙂
+          </p>
+        ) : (
+          <div>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleSubmit}
+              disabled={
+                errors.countryErr === '' &&
+                errors.emailErr === '' &&
+                errors.fileErr === '' &&
+                errors.nameErr === '' &&
+                errors.employeeNumberErr === ''
+                  ? false
+                  : true
+              }
+            >
+              Submit
+            </Button>
+            {errorSending ? (
+              <Error error={'Something went wrong, try again later.'} />
+            ) : (
+              ''
+            )}
+          </div>
+        )}
       </form>
-      <div className="note"><p>
-        {`Please note: If the requisition belongs to GCC and you are applying from GCC , 
-        then you should login to oracle and follow:`}</p>
-        <p>{`Navigation Menu > Current Jobs > Search for requisition and apply.`}</p></div>
+      <div className="note">
+        <p>
+          {`Please note: If the requisition belongs to GCC and you are applying from GCC , 
+        then you should login to oracle and follow:`}
+        </p>
+        <p>{`Navigation Menu > Current Jobs > Search for requisition and apply.`}</p>
+      </div>
     </div>
   );
 }
