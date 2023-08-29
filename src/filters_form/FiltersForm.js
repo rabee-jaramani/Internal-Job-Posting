@@ -8,22 +8,21 @@ import {
 } from '@mui/material';
 
 export default function FiltersForm(props) {
-
-  const searching = props.searching
-  const setSearching = props.setSearching
-  const setListToBeRendered = props.setListToBeRendered
-  const listToBeRendered = props.listToBeRendered
-  const original_list = props.original_list
+  const searching = props.searching;
+  const setSearching = props.setSearching;
+  const setListToBeRendered = props.setListToBeRendered;
+  const listToBeRendered = props.listToBeRendered;
+  const original_list = props.original_list;
   const [country, setCountry] = useState('all');
   const [job_title, setJob_title] = useState('all');
-  const [job_title_list, setJob_title_list] = useState(listToBeRendered)
+  const [job_title_list, setJob_title_list] = useState(listToBeRendered);
 
   const filterByCountry = (listToBeFiltered) => {
-    console.log('listToBeFiltered', listToBeFiltered)
+    console.log('listToBeFiltered', listToBeFiltered);
 
     if (country !== 'all') {
       let temp_list = listToBeFiltered.filter((e) => {
-        console.log(e.location)
+        console.log(e.location);
         return e.location.toLowerCase().includes(country.toLowerCase());
       });
       return filterByJobTitle(temp_list);
@@ -39,16 +38,16 @@ export default function FiltersForm(props) {
       let temp_list = listToBeFiltered.filter((e) => {
         return e.job_title.toLowerCase() === job_title.toLowerCase();
       });
-      setSearching(false)
+      setSearching(false);
       return temp_list;
     } else {
-      setSearching(false)
+      setSearching(false);
       return listToBeFiltered;
     }
   };
   const setListToRender = (list) => {
-    setListToBeRendered(filterByCountry(list))
-  }
+    setListToBeRendered(filterByCountry(list));
+  };
 
   const handleSubmit = () => {
     setSearching(true);
@@ -60,13 +59,12 @@ export default function FiltersForm(props) {
     return arr.filter((item, index) => arr.indexOf(item) === index);
   }
   useEffect(() => {
-    setJob_title_list(removeDuplicates(listToBeRendered))
-  }, [listToBeRendered])
+    setJob_title_list(removeDuplicates(listToBeRendered));
+  }, [listToBeRendered]);
 
   return (
     <>
-      <div className="filters-form-cont">
-
+      <div className="filters-form-cont" id="serach_form">
         <FormControl fullWidth>
           <InputLabel>BY LOCATION</InputLabel>
           <Select
@@ -97,14 +95,14 @@ export default function FiltersForm(props) {
           >
             <MenuItem value="all">All</MenuItem>
             {job_title_list.map((e) => {
-              return <MenuItem key={e.requisition_number} value={e.job_title}>{e.job_title}</MenuItem>
+              return (
+                <MenuItem key={e.requisition_number} value={e.job_title}>
+                  {e.job_title}
+                </MenuItem>
+              );
             })}
           </Select>
         </FormControl>
-
-
-
-
 
         <Button
           disabled={searching ? true : false}
