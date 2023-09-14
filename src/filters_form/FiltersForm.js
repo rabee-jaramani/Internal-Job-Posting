@@ -18,11 +18,12 @@ export default function FiltersForm(props) {
   const [job_title_list, setJob_title_list] = useState(listToBeRendered);
 
   const filterByCountry = (listToBeFiltered) => {
-    console.log('listToBeFiltered', listToBeFiltered);
+    // console.log('listToBeFiltered', listToBeFiltered);
 
     if (country !== 'all') {
       let temp_list = listToBeFiltered.filter((e) => {
-        console.log(e.location);
+        console.log('lOCATION FROM DATA', e.location);
+        console.log('lOCATION FROM search', country);
         return e.location.toLowerCase().includes(country.toLowerCase());
       });
       return filterByJobTitle(temp_list);
@@ -80,7 +81,7 @@ export default function FiltersForm(props) {
             <MenuItem value="KUWAIT">KUWAIT</MenuItem>
             <MenuItem value="OMAN">OMAN</MenuItem>
             <MenuItem value="BAHRAIN">BAHRAIN</MenuItem>
-            <MenuItem value="BAHRAIN">INDIA</MenuItem>
+            <MenuItem value="INDIA">INDIA</MenuItem>
           </Select>
         </FormControl>
 

@@ -18,7 +18,7 @@ export default function Form2(props) {
     job_title,
     department,
     location,
-    recruiter_name,
+    // recruiter_name,
     recruiter_email,
   } = props.item;
 
@@ -175,15 +175,13 @@ export default function Form2(props) {
         employee_number +
         `\nCountry: ` +
         country +
-        `\nRecruiter: ` +
-        recruiter_name +
         `\nJob Location: ` +
         location
       );
       formData.append('attachment', attachment);
 
       try {
-        await axios.post('https://ijp.apparelglobal.com/send-email', formData, {
+        await axios.post('https://ijp-server.vercel.app/send-email', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
