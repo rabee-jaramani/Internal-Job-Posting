@@ -2,7 +2,11 @@
   "name": "ijp",
   "version": "0.1.0",
   "private": true,
+<<<<<<< Updated upstream
   "homepage": "https://apparelglobal.com/client/",
+=======
+  "homepage": "https://ijp.apparelglobal.com/client/",
+>>>>>>> Stashed changes
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "@emotion/react": "^11.11.1",

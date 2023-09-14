@@ -164,26 +164,26 @@ export default function Form2(props) {
       formData.append(
         'text',
         'Job Title: ' +
-          job_title +
-          `\nRequisition_number: ` +
-          requisition_number +
-          `\nDepartment: ` +
-          department +
-          `\nName: ` +
-          name +
-          `\nID: ` +
-          employee_number +
-          `\nCountry: ` +
-          country +
-          `\nRecruiter: ` +
-          recruiter_name +
-          `\nJob Location: ` +
-          location
+        job_title +
+        `\nRequisition_number: ` +
+        requisition_number +
+        `\nDepartment: ` +
+        department +
+        `\nName: ` +
+        name +
+        `\nID: ` +
+        employee_number +
+        `\nCountry: ` +
+        country +
+        `\nRecruiter: ` +
+        recruiter_name +
+        `\nJob Location: ` +
+        location
       );
       formData.append('attachment', attachment);
 
       try {
-        await axios.post('https://ijp-server.vercel.app/send-email', formData, {
+        await axios.post('https://ijp.apparelglobal.com/send-email', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
@@ -193,8 +193,8 @@ export default function Form2(props) {
         setErrorSending(false);
         // alert('Email sent successfully');
       } catch (error) {
-        setSending(false);
-        setErrorSending(true);
+        setSending(false)
+        setErrorSending(true)
         console.error('Error sending email:', error);
         // alert('Error sending email');
       }
@@ -339,10 +339,10 @@ export default function Form2(props) {
               onClick={handleSubmit}
               disabled={
                 errors.countryErr === '' &&
-                errors.emailErr === '' &&
-                errors.fileErr === '' &&
-                errors.nameErr === '' &&
-                errors.employeeNumberErr === ''
+                  errors.emailErr === '' &&
+                  errors.fileErr === '' &&
+                  errors.nameErr === '' &&
+                  errors.employeeNumberErr === ''
                   ? false
                   : true
               }
