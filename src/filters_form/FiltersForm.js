@@ -21,6 +21,7 @@ export default function FiltersForm(props) {
     // console.log('listToBeFiltered', listToBeFiltered);
 
     if (country !== 'all') {
+      props.setCountry_jobs(country);
       let temp_list = listToBeFiltered.filter((e) => {
         console.log('lOCATION FROM DATA', e.location);
         console.log('lOCATION FROM search', country);
