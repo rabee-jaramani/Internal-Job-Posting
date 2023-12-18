@@ -164,19 +164,19 @@ export default function Form2(props) {
       formData.append(
         'text',
         'Job Title: ' +
-        job_title +
-        `\nRequisition_number: ` +
-        requisition_number +
-        `\nDepartment: ` +
-        department +
-        `\nName: ` +
-        name +
-        `\nID: ` +
-        employee_number +
-        `\nCountry: ` +
-        country +
-        `\nJob Location: ` +
-        location
+          job_title +
+          `\nRequisition_number: ` +
+          requisition_number +
+          `\nDepartment: ` +
+          department +
+          `\nName: ` +
+          name +
+          `\nID: ` +
+          employee_number +
+          `\nCountry: ` +
+          country +
+          `\nJob Location: ` +
+          location
       );
       formData.append('attachment', attachment);
 
@@ -191,8 +191,8 @@ export default function Form2(props) {
         setErrorSending(false);
         // alert('Email sent successfully');
       } catch (error) {
-        setSending(false)
-        setErrorSending(true)
+        setSending(false);
+        setErrorSending(true);
         console.error('Error sending email:', error);
         // alert('Error sending email');
       }
@@ -337,10 +337,10 @@ export default function Form2(props) {
               onClick={handleSubmit}
               disabled={
                 errors.countryErr === '' &&
-                  errors.emailErr === '' &&
-                  errors.fileErr === '' &&
-                  errors.nameErr === '' &&
-                  errors.employeeNumberErr === ''
+                errors.emailErr === '' &&
+                errors.fileErr === '' &&
+                errors.nameErr === '' &&
+                errors.employeeNumberErr === ''
                   ? false
                   : true
               }
@@ -357,7 +357,8 @@ export default function Form2(props) {
       </form>
       <div className="note">
         <p>
-          {`Please note: If the requisition belongs to GCC and you are applying from GCC , 
+          <strong style={{ color: 'red' }}>Please note: </strong>
+          {`If the requisition belongs to GCC and you are applying from GCC , 
         then you should login to oracle and follow:`}
         </p>
         <p>{`Navigation Menu > Current Jobs > Search for requisition and apply.`}</p>
