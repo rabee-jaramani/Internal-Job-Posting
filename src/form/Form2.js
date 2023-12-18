@@ -327,7 +327,7 @@ export default function Form2(props) {
               backgroundColor: '#c0fcae',
             }}
           >
-            Your Mail sent successfully.🙂
+            Your mail sent successfully.🙂
           </p>
         ) : (
           <div>
