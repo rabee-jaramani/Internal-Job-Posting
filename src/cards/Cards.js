@@ -25,8 +25,7 @@ export default function Cards() {
         <div className="cards-grid">
           {listToBeRendered.length < 1 ? (
             <p className="no-results">
-              No jobs found in <strong>{country_jobs}</strong>. Try to filter by
-              country first then by <strong>Job Title</strong>.<br />
+              Recently, no jobs available in <strong>{country_jobs}</strong>.<br />
               <br />
               <span
                 style={{
