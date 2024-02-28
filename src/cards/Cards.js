@@ -25,7 +25,19 @@ export default function Cards() {
         <div className="cards-grid">
           {listToBeRendered.length < 1 ? (
             <p className="no-results">
-              No jobs found in <strong>{country_jobs}</strong> at the moment.
+              No jobs found in <strong>{country_jobs}</strong>. Try to filter by
+              country first then by <strong>Job Title</strong>.<br />
+              <br />
+              <span
+                style={{
+                  color: '#C8CFE3',
+                  textDecoration: 'underline',
+                  cursor: 'pointer',
+                }}
+                onClick={() => window.location.reload()}
+              >
+                Refresh the page
+              </span>
             </p>
           ) : (
             listToBeRendered.map((item) => {

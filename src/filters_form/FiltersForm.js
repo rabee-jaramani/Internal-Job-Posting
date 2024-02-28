@@ -57,11 +57,19 @@ export default function FiltersForm(props) {
       setListToRender(original_list);
     }, 1000);
   };
-  function removeDuplicates(arr) {
-    return arr.filter((item, index) => arr.indexOf(item) === index);
+  // function removeDuplicates(arr) {
+  //   return arr.filter((item, index) => arr.indexOf(item) === index);
+  // }
+  function removeDuplicates(array, property) {
+    const uniqueValues = new Set();
+    return array.filter(
+      (obj) =>
+        !uniqueValues.has(obj[property]) && uniqueValues.add(obj[property])
+    );
   }
+
   useEffect(() => {
-    setJob_title_list(removeDuplicates(listToBeRendered));
+    setJob_title_list(removeDuplicates(listToBeRendered, 'job_title'));
   }, [listToBeRendered]);
 
   return (
