@@ -173,6 +173,8 @@ export default function Form2(props) {
           name +
           `\nID: ` +
           employee_number +
+          `\nEmail: ` +
+          email +
           `\nCountry: ` +
           country +
           `\nJob Location: ` +

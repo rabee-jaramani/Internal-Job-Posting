@@ -1,6 +1,13 @@
 // =CONCATENATE("{requisition_number:",A2,",job_title:'",B2,"',department:'",C2,"',location:'",D2,"',recruiter_email:'",E2,"',},")
 export const data = [
   {
+    requisition_number: 101010,
+    job_title: 'Test',
+    department: 'Test Brand',
+    location: 'UAE',
+    recruiter_email: 'rabee.aljaramani@apparelglobal.com',
+  },
+  {
     requisition_number: 1231,
     job_title: 'Visual Merchandiser',
     department: 'LC Waikiki',
