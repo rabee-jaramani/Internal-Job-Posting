@@ -11,7 +11,9 @@ import Error from './Error';
 import styled from '@emotion/styled';
 import axios from 'axios';
 import Spinner from '../spinner/Spinner';
-
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 export default function Form2(props) {
   const {
     requisition_number,
@@ -44,6 +46,7 @@ export default function Form2(props) {
   const [employee_number, setEmployeeNumber] = useState('');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [dateOfJoining, setDateOfJoining] = useState('');
   const [fileName, setFileName] = useState('');
   const [errors, setErrors] = useState({
     countryErr: null,
@@ -118,7 +121,12 @@ export default function Form2(props) {
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
       );
   };
-
+ // Handle Date of Join
+ const handleDateOfJoin = (value) => {
+   console.log("date: ", value.format('DD, MMMM, YYYY'))
+  setDateOfJoining(value.format('DD, MMMM, YYYY'));
+  setErrors({ ...errors, date_of_joinErr: '' }); // Clear error when a date is selected
+};
   const handleFile = (e) => {
     let file = document.getElementById('file').files[0];
     try {
@@ -148,7 +156,8 @@ export default function Form2(props) {
       errors.emailErr === '' &&
       errors.fileErr === '' &&
       errors.nameErr === '' &&
-      errors.employeeNumberErr === ''
+      errors.employeeNumberErr === ''&&
+      errors.date_of_joinErr === '' 
     ) {
       // console.log(document.getElementById('file').files[0])
       // console.log("ALL GOOD >>>>>>>>>>>>>>>>>")
@@ -179,6 +188,8 @@ export default function Form2(props) {
           country +
           `\nJob Location: ` +
           location
+          `\nDate of Joining: ` +
+          dateOfJoining
       );
       formData.append('attachment', attachment);
 
@@ -290,6 +301,20 @@ export default function Form2(props) {
             disabled={sent}
           />
           <Error error={errors.emailErr}></Error>
+        </div>
+           {/* date of join */}
+
+        <div>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DatePicker
+       label="Joining Date"
+          value={dateOfJoining}
+          onChange={handleDateOfJoin}
+          renderInput={(params) => <TextField {...params} />}
+          required
+          disabled={sent}
+       />
+    </LocalizationProvider>
         </div>
         <div>
           <input
