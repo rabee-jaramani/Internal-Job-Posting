@@ -187,7 +187,7 @@ export default function Form2(props) {
           `\nCountry: ` +
           country +
           `\nJob Location: ` +
-          location
+          location+
           `\nDate of Joining: ` +
           dateOfJoining
       );

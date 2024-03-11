@@ -6,11 +6,16 @@
     margin-top: 30px
     width: 100%
     display: grid
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))
-    gap: 20px
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+    grid-gap: 1rem
+    grid-auto-flow: dense
+    justify-content: center
 .no-results
     font-size: 14px
     width: 100%
     padding: 20px
     background-color: #f55252
     text-align: center
+@media screen and (max-width:600px)
+    .cards-grid
+        grid-template-columns: repeat(2, min(180, 1fr))
