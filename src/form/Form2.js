@@ -53,6 +53,7 @@ export default function Form2(props) {
     nameErr: null,
     employeeNumberErr: null,
     emailErr: null,
+    date_of_joinErr:null,
     fileErr: 'Please choose a file to upload',
   });
   const [attachment, setAttachment] = useState(null);
@@ -123,9 +124,8 @@ export default function Form2(props) {
   };
  // Handle Date of Join
  const handleDateOfJoin = (value) => {
-   console.log("date: ", value.format('DD, MMMM, YYYY'))
-  setDateOfJoining(value.format('DD, MMMM, YYYY'));
-  setErrors({ ...errors, date_of_joinErr: '' }); // Clear error when a date is selected
+    setDateOfJoining(value.format('DD, MMMM, YYYY'));
+    setErrors({ ...errors, date_of_joinErr: '' }); // Clear error when a date is selected
 };
   const handleFile = (e) => {
     let file = document.getElementById('file').files[0];
@@ -166,6 +166,9 @@ export default function Form2(props) {
           `The requisition belongs to GCC and you are applying from GCC,\nPlease login to oracle and follow:\nNavigation Menu > Current Jobs > Search for requisition and apply.`
         );
         return '';
+      }
+      if(errors.date_of_joinErr===null){
+        console.log("date of join noi selected")
       }
       const formData = new FormData();
       formData.append('to', recruiter_email);
@@ -302,19 +305,21 @@ export default function Form2(props) {
           />
           <Error error={errors.emailErr}></Error>
         </div>
-           {/* date of join */}
 
-        <div>
+      {/* date of join */}
+        <div className='date-picker-div'>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DatePicker
        label="Joining Date"
           value={dateOfJoining}
           onChange={handleDateOfJoin}
           renderInput={(params) => <TextField {...params} />}
-          required
+          required={true}
           disabled={sent}
        />
     </LocalizationProvider>
+    <Error error={errors.date_of_joinErr}></Error>
+
         </div>
         <div>
           <input
@@ -367,10 +372,12 @@ export default function Form2(props) {
                 errors.emailErr === '' &&
                 errors.fileErr === '' &&
                 errors.nameErr === '' &&
-                errors.employeeNumberErr === ''
+                errors.employeeNumberErr === ''&&
+                errors.date_of_joinErr===''
                   ? false
-                  : true
-              }
+                  : true 
+               }
+              
             >
               Submit
             </Button>
