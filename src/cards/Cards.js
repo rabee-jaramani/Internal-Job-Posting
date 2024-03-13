@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+
 import Card from '../card/Card';
-import { data } from '../data';
 import FiltersForm from '../filters_form/FiltersForm';
 import Spinner from '../spinner/Spinner';
-export default function Cards() {
+import React, { useState } from 'react';
+
+export default function Cards({data,isGCC}) {
   const [searching, setSearching] = useState(false);
+  const [country_jobs, setCountry_jobs] = useState(data);
+  const [original_list,setOriginal_list]=useState(data)
   const [listToBeRendered, setListToBeRendered] = useState(data);
-  const [country_jobs, setCountry_jobs] = useState('');
-  const original_list = data;
+// console.log('listToBeRendered',listToBeRendered)
   return (
     <div className="cards-cont">
       <FiltersForm
@@ -18,6 +20,7 @@ export default function Cards() {
         setSearching={setSearching}
         country_jobs={country_jobs}
         setCountry_jobs={setCountry_jobs}
+        isGCC={isGCC}
       />
       {searching ? (
         <Spinner />
@@ -42,6 +45,7 @@ export default function Cards() {
             listToBeRendered.map((item) => {
               return <Card item={item} key={item.requisition_number} />;
             })
+         
           )}
           {/* {listToBeRendered.map((item) => {
             return <Card item={item} key={item.requisition_number} />;

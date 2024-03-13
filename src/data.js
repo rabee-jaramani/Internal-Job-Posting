@@ -1,5 +1,5 @@
 // =CONCATENATE("{requisition_number:",A2,",job_title:'",B2,"',department:'",C2,"',location:'",D2,"',recruiter_email:'",E2,"',},")
-export const data = [
+export const dataFromFile = [
   {
     requisition_number: 101010,
     job_title: 'Test',

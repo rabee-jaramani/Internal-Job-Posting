@@ -16,7 +16,7 @@ export default function FiltersForm(props) {
   const [country, setCountry] = useState('all');
   const [job_title, setJob_title] = useState('all');
   const [job_title_list, setJob_title_list] = useState(listToBeRendered);
-
+// console.log('listToBeRendered',listToBeRendered)
   const filterByCountry = (listToBeFiltered) => {
     // console.log('listToBeFiltered', listToBeFiltered);
 
@@ -57,9 +57,7 @@ export default function FiltersForm(props) {
       setListToRender(original_list);
     }, 1000);
   };
-  // function removeDuplicates(arr) {
-  //   return arr.filter((item, index) => arr.indexOf(item) === index);
-  // }
+
   function removeDuplicates(array, property) {
     const uniqueValues = new Set();
     return array.filter(
@@ -75,6 +73,22 @@ export default function FiltersForm(props) {
   return (
     <>
       <div className="filters-form-cont" id="serach_form">
+      {props.isGCC
+      ?
+      <FormControl fullWidth>
+          <InputLabel>BY LOCATION</InputLabel>
+          <Select
+            value={country}
+            label="BY COUNTRY"
+            onChange={(e) => setCountry(e.target.value)}
+            disabled={searching ? true : false}
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="INDIA">INDIA</MenuItem>
+          </Select>
+        </FormControl>
+        :
+
         <FormControl fullWidth>
           <InputLabel>BY LOCATION</InputLabel>
           <Select
@@ -93,6 +107,7 @@ export default function FiltersForm(props) {
             <MenuItem value="INDIA">INDIA</MenuItem>
           </Select>
         </FormControl>
+      }
 
         <FormControl fullWidth>
           <InputLabel>BY JOB TITLE</InputLabel>
